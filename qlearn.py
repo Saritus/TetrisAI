@@ -3,6 +3,7 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers.core import Dense
 from keras.optimizers import sgd
+from tetris import TetrisApp
 
 
 class ExperienceReplay(object):
@@ -61,7 +62,7 @@ if __name__ == "__main__":
     # model.load_weights("model.h5")
 
     # Define environment/game
-    env = Catch(grid_size)
+    env = TetrisApp()
 
     # Initialize experience replay object
     exp_replay = ExperienceReplay(max_memory=max_memory)
