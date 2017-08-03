@@ -135,10 +135,7 @@ class TetrisApp(object):
             pygame.font.get_default_font(), 12)
 
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.event.set_blocked(pygame.MOUSEMOTION)  # We do not need
-        # mouse movement
-        # events, so we
-        # block them.
+        pygame.event.set_blocked(pygame.MOUSEMOTION)  # We do not need mouse movement events, so we block them.
         self.next_stone = tetris_shapes[rand(len(tetris_shapes))]
         self.init_game()
 
@@ -148,9 +145,7 @@ class TetrisApp(object):
         self.stone_x = int(cols / 2 - len(self.stone[0]) / 2)
         self.stone_y = 0
 
-        if check_collision(self.board,
-                           self.stone,
-                           (self.stone_x, self.stone_y)):
+        if check_collision(self.board, self.stone, (self.stone_x, self.stone_y)):
             self.gameover = True
 
     def init_game(self):
@@ -175,8 +170,7 @@ class TetrisApp(object):
 
     def center_msg(self, msg):
         for i, line in enumerate(msg.splitlines()):
-            msg_image = self.default_font.render(line, False,
-                                                 (255, 255, 255), (0, 0, 0))
+            msg_image = self.default_font.render(line, False, (255, 255, 255), (0, 0, 0))
 
             msgim_center_x, msgim_center_y = msg_image.get_size()
             msgim_center_x //= 2
@@ -257,15 +251,13 @@ class TetrisApp(object):
 
     def insta_drop(self):
         if not self.gameover and not self.paused:
-            while (not self.drop(True)):
+            while not self.drop(True):
                 pass
 
     def rotate_stone(self):
         if not self.gameover and not self.paused:
             new_stone = rotate_clockwise(self.stone)
-            if not check_collision(self.board,
-                                   new_stone,
-                                   (self.stone_x, self.stone_y)):
+            if not check_collision(self.board, new_stone, (self.stone_x, self.stone_y)):
                 self.stone = new_stone
 
     def toggle_pause(self):
@@ -295,26 +287,17 @@ class TetrisApp(object):
         while 1:
             self.screen.fill((0, 0, 0))
             if self.gameover:
-                self.center_msg("""Game Over!\nYour score: %d
-Press space to continue""" % self.score)
+                self.center_msg("""Game Over!\nYour score: %d\nPress space to continue""" % self.score)
             else:
                 if self.paused:
                     self.center_msg("Paused")
                 else:
-                    pygame.draw.line(self.screen,
-                                     (255, 255, 255),
-                                     (self.rlim + 1, 0),
-                                     (self.rlim + 1, self.height - 1))
-                    self.disp_msg("Next:", (
-                        self.rlim + cell_size,
-                        2))
-                    self.disp_msg("Score: %d\n\nLevel: %d\
-\nLines: %d" % (self.score, self.level, self.lines),
-                                  (self.rlim + cell_size, cell_size * 5))
+                    pygame.draw.line(self.screen, (255, 255, 255), (self.rlim + 1, 0), (self.rlim + 1, self.height - 1))
+                    self.disp_msg("Next:", (self.rlim + cell_size, 2))
+                    self.disp_msg("Score: %d\n\nLevel: %d\nLines: %d" % (self.score, self.level, self.lines), (self.rlim + cell_size, cell_size * 5))
                     self.draw_matrix(self.bground_grid, (0, 0))
                     self.draw_matrix(self.board, (0, 0))
-                    self.draw_matrix(self.stone,
-                                     (self.stone_x, self.stone_y))
+                    self.draw_matrix(self.stone, (self.stone_x, self.stone_y))
                     self.draw_matrix(self.next_stone,
                                      (cols + 1, 2))
             pygame.display.update()
@@ -326,8 +309,7 @@ Press space to continue""" % self.score)
                     self.quit()
                 elif event.type == pygame.KEYDOWN:
                     for key in key_actions:
-                        if event.key == eval("pygame.K_"
-                                                     + key):
+                        if event.key == eval("pygame.K_" + key):
                             key_actions[key]()
 
             dont_burn_my_cpu.tick(maxfps)
