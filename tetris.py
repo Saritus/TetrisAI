@@ -315,7 +315,7 @@ class TetrisApp(object):
             'DOWN': lambda: self.drop(True),
             'UP': self.rotate_stone,
             'RETURN': self.insta_drop,
-            'IDLE': self.idle()
+            'IDLE': self.idle
         }
 
         key_actions[num_to_key[action]]()
