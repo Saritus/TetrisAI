@@ -45,10 +45,9 @@ class ExperienceReplay(object):
 if __name__ == "__main__":
     # parameters
     epsilon = .1  # exploration
-    num_actions = 5  # [ left, right, drop, rotate, insta_drop]
-    epoch = 1000
-    max_memory = 500
-    hidden_size = 100
+    num_actions = 6  # [ left, right, drop, rotate, insta_drop, idle]
+    epoch = 10000
+    max_memory = 5000
     batch_size = 50
     grid_size = 10
 
