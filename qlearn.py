@@ -63,6 +63,7 @@ if __name__ == "__main__":
 
     # Define environment/game
     env = TetrisApp()
+    env.run()
 
     # Initialize experience replay object
     exp_replay = ExperienceReplay(max_memory=max_memory)

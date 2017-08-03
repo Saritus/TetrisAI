@@ -269,7 +269,7 @@ class TetrisApp(object):
             self.gameover = False
 
     def run(self):
-        key_actions = {
+        self.key_actions = {
             'ESCAPE': self.quit,
             'LEFT': lambda: self.move(-1),
             'RIGHT': lambda: self.move(+1),
@@ -283,37 +283,6 @@ class TetrisApp(object):
         self.gameover = False
         self.paused = False
 
-        dont_burn_my_cpu = pygame.time.Clock()
-        while 1:
-            self.screen.fill((0, 0, 0))
-            if self.gameover:
-                self.center_msg("""Game Over!\nYour score: %d\nPress space to continue""" % self.score)
-            else:
-                if self.paused:
-                    self.center_msg("Paused")
-                else:
-                    pygame.draw.line(self.screen, (255, 255, 255), (self.rlim + 1, 0), (self.rlim + 1, self.height - 1))
-                    self.disp_msg("Next:", (self.rlim + cell_size, 2))
-                    self.disp_msg("Score: %d\n\nLevel: %d\nLines: %d" % (self.score, self.level, self.lines), (self.rlim + cell_size, cell_size * 5))
-                    self.draw_matrix(self.bground_grid, (0, 0))
-                    self.draw_matrix(self.board, (0, 0))
-                    self.draw_matrix(self.stone, (self.stone_x, self.stone_y))
-                    self.draw_matrix(self.next_stone,
-                                     (cols + 1, 2))
-            pygame.display.update()
-
-            for event in pygame.event.get():
-                if event.type == pygame.USEREVENT + 1:
-                    self.drop(False)
-                elif event.type == pygame.QUIT:
-                    self.quit()
-                elif event.type == pygame.KEYDOWN:
-                    for key in key_actions:
-                        if event.key == eval("pygame.K_" + key):
-                            key_actions[key]()
-
-            dont_burn_my_cpu.tick(maxfps)
-
     # Interface for qlearn
 
     def _update_state(self, action):
@@ -321,21 +290,31 @@ class TetrisApp(object):
         Input: action and states
         Ouput: new states and reward
         """
-        state = self.state
-        if action == 0:  # left
-            action = -1
-        elif action == 1:  # stay
-            action = 0
+        self.screen.fill((0, 0, 0))
+        if self.gameover:
+            self.center_msg("""Game Over!\nYour score: %d\nPress space to continue""" % self.score)
         else:
-            action = 1  # right
-        f0, f1, basket = state[0]
-        new_basket = min(max(1, basket + action), self.grid_size - 1)
-        f0 += 1
-        out = numpy.asarray([f0, f1, new_basket])
-        out = out[numpy.newaxis]
+            if self.paused:
+                self.center_msg("Paused")
+            else:
+                pygame.draw.line(self.screen, (255, 255, 255), (self.rlim + 1, 0), (self.rlim + 1, self.height - 1))
+                self.disp_msg("Next:", (self.rlim + cell_size, 2))
+                self.disp_msg("Score: %d\n\nLevel: %d\nLines: %d" % (self.score, self.level, self.lines), (self.rlim + cell_size, cell_size * 5))
+                self.draw_matrix(self.bground_grid, (0, 0))
+                self.draw_matrix(self.board, (0, 0))
+                self.draw_matrix(self.stone, (self.stone_x, self.stone_y))
+                self.draw_matrix(self.next_stone, (cols + 1, 2))
+        pygame.display.update()
 
-        assert len(out.shape) == 2
-        self.state = out
+        for event in pygame.event.get():
+            if event.type == pygame.USEREVENT + 1:
+                self.drop(False)
+            elif event.type == pygame.QUIT:
+                self.quit()
+            elif event.type == pygame.KEYDOWN:
+                for key in self.key_actions:
+                    if event.key == eval("pygame.K_" + key):
+                        self.key_actions[key]()
 
     def _draw_state(self):
         return self.board
