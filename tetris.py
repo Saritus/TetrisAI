@@ -336,11 +336,9 @@ class TetrisApp(object):
     def _get_reward(self):
         if self._is_over():
             return -1
-        elif self.lines > self.prev_lines:
-            self.prev_lines = self.lines
-            return 1
         else:
-            return 0
+            reward, self.prev_lines = self.lines - self.prev_lines, self.lines
+            return reward
 
     def _is_over(self):
         return self.gameover
