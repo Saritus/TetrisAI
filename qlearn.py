@@ -82,11 +82,9 @@ if __name__ == "__main__":
             # get next action
             if np.random.rand() <= epsilon:
                 action = np.random.randint(0, num_actions)
-                print "random", action
             else:
                 q = model.predict(input_tm1)
                 action = np.argmax(q[0])
-                print "model", action
 
             # apply action, get rewards and new state
             input_t, reward, game_over = env.act(action)
