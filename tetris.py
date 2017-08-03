@@ -325,7 +325,6 @@ class TetrisApp(object):
 
     def observe(self):
         canvas = numpy.asarray(self._draw_state())
-        print canvas
         return canvas.reshape((1, -1))
 
     def act(self, action):
