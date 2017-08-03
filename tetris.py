@@ -296,24 +296,18 @@ class TetrisApp(object):
         pygame.display.update()
 
         num_to_key = [
-            'ESCAPE',  # 0
-            'LEFT',  # 1
-            'RIGHT',  # 2
-            'DOWN',  # 3
-            'UP',  # 4
-            'p',  # 5
-            'SPACE',  # 6
-            'RETURN'  # 7
+            'LEFT',  # 0
+            'RIGHT',  # 1
+            'DOWN',  # 2
+            'UP',  # 3
+            'RETURN'  # 4
         ]
 
         key_actions = {
-            'ESCAPE': self.quit,
             'LEFT': lambda: self.move(-1),
             'RIGHT': lambda: self.move(+1),
             'DOWN': lambda: self.drop(True),
             'UP': self.rotate_stone,
-            'p': self.toggle_pause,
-            'SPACE': self.start_game,
             'RETURN': self.insta_drop
         }
 
