@@ -63,25 +63,25 @@ colors = [
 
 # Define the shapes of the single parts
 tetris_shapes = [
-    [[1, 1, 1],
-     [0, 1, 0]],
+    [[2, 2, 2],
+     [0, 2, 0]],
 
-    [[0, 1, 1],
-     [1, 1, 0]],
+    [[0, 2, 2],
+     [2, 2, 0]],
 
-    [[1, 1, 0],
-     [0, 1, 1]],
+    [[2, 2, 0],
+     [0, 2, 2]],
 
-    [[1, 0, 0],
-     [1, 1, 1]],
+    [[2, 0, 0],
+     [2, 2, 2]],
 
-    [[0, 0, 1],
-     [1, 1, 1]],
+    [[0, 0, 2],
+     [2, 2, 2]],
 
-    [[1, 1, 1, 1]],
+    [[2, 2, 2, 2]],
 
-    [[1, 1],
-     [1, 1]]
+    [[2, 2],
+     [2, 2]]
 ]
 
 
@@ -114,6 +114,15 @@ def join_matrixes(mat1, mat2, mat2_off):
     for cy, row in enumerate(mat2):
         for cx, val in enumerate(row):
             result[cy + off_y - 1][cx + off_x] += val
+    return result
+
+
+def join_matrixes_sign(mat1, mat2, mat2_off):
+    result = copy.deepcopy(mat1)
+    off_x, off_y = mat2_off
+    for cy, row in enumerate(mat2):
+        for cx, val in enumerate(row):
+            result[cy + off_y - 1][cx + off_x] += numpy.sign(val)
     return result
 
 
@@ -236,7 +245,7 @@ class TetrisApp(object):
             if check_collision(self.board,
                                self.stone,
                                (self.stone_x, self.stone_y)):
-                self.board = join_matrixes(
+                self.board = join_matrixes_sign(
                     self.board,
                     self.stone,
                     (self.stone_x, self.stone_y))
