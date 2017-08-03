@@ -23,7 +23,7 @@ class Catch(object):
         else:
             action = 1  # right
         f0, f1, basket = state[0]
-        new_basket = min(max(1, basket + action), self.grid_size-1)
+        new_basket = min(max(1, basket + action), self.grid_size - 1)
         f0 += 1
         out = np.asarray([f0, f1, new_basket])
         out = out[np.newaxis]
@@ -32,16 +32,16 @@ class Catch(object):
         self.state = out
 
     def _draw_state(self):
-        im_size = (self.grid_size,)*2
+        im_size = (self.grid_size,) * 2
         state = self.state[0]
         canvas = np.zeros(im_size)
         canvas[state[0], state[1]] = 1  # draw fruit
-        canvas[-1, state[2]-1:state[2] + 2] = 1  # draw basket
+        canvas[-1, state[2] - 1:state[2] + 2] = 1  # draw basket
         return canvas
 
     def _get_reward(self):
         fruit_row, fruit_col, basket = self.state[0]
-        if fruit_row == self.grid_size-1:
+        if fruit_row == self.grid_size - 1:
             if abs(fruit_col - basket) <= 1:
                 return 1
             else:
@@ -50,7 +50,7 @@ class Catch(object):
             return 0
 
     def _is_over(self):
-        if self.state[0, 0] == self.grid_size-1:
+        if self.state[0, 0] == self.grid_size - 1:
             return True
         else:
             return False
@@ -66,8 +66,8 @@ class Catch(object):
         return self.observe(), reward, game_over
 
     def reset(self):
-        n = np.random.randint(0, self.grid_size-1, size=1)
-        m = np.random.randint(1, self.grid_size-2, size=1)
+        n = np.random.randint(0, self.grid_size - 1, size=1)
+        m = np.random.randint(1, self.grid_size - 2, size=1)
         self.state = np.asarray([0, n, m])[np.newaxis]
 
 
@@ -94,7 +94,7 @@ class ExperienceReplay(object):
             state_t, action_t, reward_t, state_tp1 = self.memory[idx][0]
             game_over = self.memory[idx][1]
 
-            inputs[i:i+1] = state_t
+            inputs[i:i + 1] = state_t
             # There should be no target values for actions not taken.
             # Thou shalt not correct actions not taken #deep
             targets[i] = model.predict(state_t)[0]
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     grid_size = 10
 
     model = Sequential()
-    model.add(Dense(hidden_size, input_shape=(grid_size**2,), activation='relu'))
+    model.add(Dense(hidden_size, input_shape=(grid_size ** 2,), activation='relu'))
     model.add(Dense(hidden_size, activation='relu'))
     model.add(Dense(num_actions))
     model.compile(sgd(lr=.2), "mse")
