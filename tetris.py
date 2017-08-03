@@ -154,6 +154,8 @@ class TetrisApp(object):
         self.level = 1
         self.score = 0
         self.lines = 0
+        self.gameover = False
+        self.paused = False
         pygame.time.set_timer(pygame.USEREVENT + 1, 1000)
 
     def disp_msg(self, msg, topleft):
@@ -268,21 +270,6 @@ class TetrisApp(object):
             self.init_game()
             self.gameover = False
 
-    def run(self):
-        self.key_actions = {
-            'ESCAPE': self.quit,
-            'LEFT': lambda: self.move(-1),
-            'RIGHT': lambda: self.move(+1),
-            'DOWN': lambda: self.drop(True),
-            'UP': self.rotate_stone,
-            'p': self.toggle_pause,
-            'SPACE': self.start_game,
-            'RETURN': self.insta_drop
-        }
-
-        self.gameover = False
-        self.paused = False
-
     # Interface for qlearn
 
     def _update_state(self, action):
@@ -306,15 +293,18 @@ class TetrisApp(object):
                 self.draw_matrix(self.next_stone, (cols + 1, 2))
         pygame.display.update()
 
-        for event in pygame.event.get():
-            if event.type == pygame.USEREVENT + 1:
-                self.drop(False)
-            elif event.type == pygame.QUIT:
-                self.quit()
-            elif event.type == pygame.KEYDOWN:
-                for key in self.key_actions:
-                    if event.key == eval("pygame.K_" + key):
-                        self.key_actions[key]()
+        key_actions = {
+            'ESCAPE': self.quit,
+            'LEFT': lambda: self.move(-1),
+            'RIGHT': lambda: self.move(+1),
+            'DOWN': lambda: self.drop(True),
+            'UP': self.rotate_stone,
+            'p': self.toggle_pause,
+            'SPACE': self.start_game,
+            'RETURN': self.insta_drop
+        }
+
+        key_actions[action]()
 
     def _draw_state(self):
         return self.board
