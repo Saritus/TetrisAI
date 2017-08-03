@@ -346,4 +346,10 @@ class TetrisApp(object):
 
 if __name__ == '__main__':
     App = TetrisApp()
-    App.run()
+    while 1:
+        if rand(0, 2) == 0:
+            App.act(1)
+        else:
+            App.act(2)
+        print App._is_over()
+        time.sleep(0.1)
