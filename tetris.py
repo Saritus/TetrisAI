@@ -369,9 +369,7 @@ class TetrisApp(object):
         return self.observe(), reward, game_over
 
     def reset(self):
-        # Reset the game
-        # TODO: Implement reset
-        return
+        self.init_game()
 
 
 if __name__ == '__main__':
