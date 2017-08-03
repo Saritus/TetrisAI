@@ -145,3 +145,4 @@ $RECYCLE.BIN/
 # Project files
 model/
 images/
+*.hdf5
