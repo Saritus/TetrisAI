@@ -155,7 +155,9 @@ class TetrisApp(object):
         self.new_stone()
         self.level = 1
         self.score = 0
+        self.prev_score = 0
         self.lines = 0
+        self.prev_lines = 0
         self.gameover = False
         self.paused = False
         pygame.time.set_timer(pygame.USEREVENT + 1, 1000)
@@ -318,7 +320,13 @@ class TetrisApp(object):
         return join_matrixes(self.board, self.stone, (self.stone_x, self.stone_y))
 
     def _get_reward(self):
-        return self.score
+        if self._is_over():
+            return -1
+        elif self.lines > self.prev_lines:
+            self.prev_lines = self.lines
+            return 1
+        else:
+            return 0
 
     def _is_over(self):
         return self.gameover
