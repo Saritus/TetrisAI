@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
             # apply action, get rewards and new state
             input_t, reward, game_over = env.act(action)
-            if reward == 1:
+            if reward >= 1:
                 win_cnt += 1
 
             # store experience
@@ -114,6 +114,7 @@ if __name__ == "__main__":
             inputs, targets = exp_replay.get_batch(model, batch_size=batch_size)
 
             loss += model.train_on_batch(inputs, targets)
+
         print("Epoch {:04d}/{} | Loss {:.4f} | Score {} | Lines {} | Stones {}".format(e, epoch - 1, loss, env.score, env.lines, env.stone_cnt))
 
         if env.stone_cnt > record:
