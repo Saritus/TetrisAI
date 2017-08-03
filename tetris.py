@@ -341,9 +341,7 @@ class TetrisApp(object):
         return self.board
 
     def _get_reward(self):
-        # Calculate the reward
-        # TODO: Implement _get_reward
-        return 0
+        return self.score
 
     def _is_over(self):
         return self.gameover
