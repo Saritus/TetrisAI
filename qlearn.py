@@ -45,7 +45,7 @@ class ExperienceReplay(object):
 if __name__ == "__main__":
     # parameters
     epsilon = .1  # exploration
-    num_actions = 3  # [move_left, stay, move_right]
+    num_actions = 5  # [ left, right, drop, rotate, insta_drop]
     epoch = 1000
     max_memory = 500
     hidden_size = 100
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     grid_size = 10
 
     model = Sequential()
-    model.add(Dense(hidden_size, input_shape=(grid_size ** 2,), activation='relu'))
+    model.add(Dense(hidden_size, input_shape=(230,), activation='relu'))
     model.add(Dense(hidden_size, activation='relu'))
     model.add(Dense(num_actions))
     model.compile(sgd(lr=.2), "mse")
@@ -63,7 +63,6 @@ if __name__ == "__main__":
 
     # Define environment/game
     env = TetrisApp()
-    env.run()
 
     # Initialize experience replay object
     exp_replay = ExperienceReplay(max_memory=max_memory)
@@ -81,10 +80,12 @@ if __name__ == "__main__":
             input_tm1 = input_t
             # get next action
             if np.random.rand() <= epsilon:
-                action = np.random.randint(0, num_actions, size=1)
+                action = np.random.randint(0, num_actions)
+                print "random", action
             else:
                 q = model.predict(input_tm1)
                 action = np.argmax(q[0])
+                print "model", action
 
             # apply action, get rewards and new state
             input_t, reward, game_over = env.act(action)
@@ -97,7 +98,7 @@ if __name__ == "__main__":
             # adapt model
             inputs, targets = exp_replay.get_batch(model, batch_size=batch_size)
 
-            loss += model.train_on_batch(inputs, targets)[0]
+            loss = model.train_on_batch(inputs, targets)
         print("Epoch {:03d}/999 | Loss {:.4f} | Win count {}".format(e, loss, win_cnt))
 
     # Save trained model weights and architecture, this will be used by the visualization code
