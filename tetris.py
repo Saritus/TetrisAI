@@ -338,12 +338,7 @@ class TetrisApp(object):
         self.state = out
 
     def _draw_state(self):
-        # Calculate the reward
-        # TODO: Implement _draw_state
-        canvas = numpy.zeros(5, 5)
-        canvas[0, 0] = 1  # draw fruit
-        canvas[1, 1] = 1  # draw basket
-        return canvas
+        return self.board
 
     def _get_reward(self):
         # Calculate the reward
