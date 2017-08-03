@@ -40,7 +40,7 @@
 # THE SOFTWARE.
 
 from random import randrange as rand
-import pygame, sys
+import pygame, sys, numpy
 
 # The configuration
 cell_size = 18
