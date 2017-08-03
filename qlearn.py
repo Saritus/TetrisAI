@@ -55,7 +55,8 @@ if __name__ == "__main__":
     model = Sequential()
     model.add(Dense(hidden_size, input_shape=(230,), activation='relu'))
     model.add(Dense(hidden_size, activation='relu'))
-    model.add(Dense(num_actions))
+    model.add(Dense(hidden_size, activation='relu'))
+    model.add(Dense(num_actions, activation='softmax'))
     model.compile(sgd(lr=.2), "mse")
 
     # If you want to continue training from a previous model, just uncomment the line bellow
