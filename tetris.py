@@ -309,7 +309,7 @@ class TetrisApp(object):
         key_actions[action]()
 
     def _draw_state(self):
-        return self.board
+        return join_matrixes(self.board, self.stone, (self.stone_x, self.stone_y))
 
     def _get_reward(self):
         return self.score
@@ -318,7 +318,8 @@ class TetrisApp(object):
         return self.gameover
 
     def observe(self):
-        canvas = self._draw_state()
+        canvas = numpy.asarray(self._draw_state())
+        print canvas
         return canvas.reshape((1, -1))
 
     def act(self, action):
