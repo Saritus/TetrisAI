@@ -351,12 +351,7 @@ class TetrisApp(object):
         return 0
 
     def _is_over(self):
-        # Check if the game is over
-        # TODO: Implement _is_over
-        if False:
-            return True
-        else:
-            return False
+        return self.gameover
 
     def observe(self):
         canvas = self._draw_state()
