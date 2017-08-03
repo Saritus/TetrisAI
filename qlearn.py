@@ -71,7 +71,7 @@ if __name__ == "__main__":
     batch_size = 100
     grid_size = 10
 
-    model = create_mlp(num_actions)
+    model = create_cnn(num_actions)
     model.compile(sgd(lr=.2), "mse")
 
     # If you want to continue training from a previous model, just uncomment the line bellow
