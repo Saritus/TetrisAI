@@ -85,6 +85,7 @@ if __name__ == "__main__":
 
     # Train
     win_cnt = 0
+    record = 0
     for e in range(epoch):
         loss = 0.
         env.reset()
@@ -114,6 +115,11 @@ if __name__ == "__main__":
 
             loss += model.train_on_batch(inputs, targets)
         print("Epoch {:04d}/{} | Loss {:.4f} | Score {} | Lines {} | Stones {}".format(e, epoch - 1, loss, env.score, env.lines, env.stone_cnt))
+
+        if env.stone_cnt > record:
+            model.save('weights.hdf5', overwrite=True)
+            print 'Increased record from {} to {}'.format(record, env.stone_cnt)
+            record = env.stone_cnt
 
     # Save trained model weights and architecture, this will be used by the visualization code
     model.save_weights("model.h5", overwrite=True)
