@@ -68,7 +68,7 @@ if __name__ == "__main__":
     num_actions = 6  # [ left, right, drop, rotate, insta_drop, idle]
     epoch = 10000
     max_memory = 5000
-    batch_size = 50
+    batch_size = 100
     grid_size = 10
 
     model = create_mlp(num_actions)
