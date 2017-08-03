@@ -244,20 +244,14 @@ class TetrisApp(object):
         if not self.gameover and not self.paused:
             self.score += 1 if manual else 0
             self.stone_y += 1
-            if check_collision(self.board,
-                               self.stone,
-                               (self.stone_x, self.stone_y)):
-                self.board = join_matrixes_sign(
-                    self.board,
-                    self.stone,
-                    (self.stone_x, self.stone_y))
+            if check_collision(self.board, self.stone, (self.stone_x, self.stone_y)):
+                self.board = join_matrixes_sign(self.board, self.stone, (self.stone_x, self.stone_y))
                 self.new_stone()
                 cleared_rows = 0
                 while True:
                     for i, row in enumerate(self.board[:-1]):
                         if 0 not in row:
-                            self.board = remove_row(
-                                self.board, i)
+                            self.board = remove_row(self.board, i)
                             cleared_rows += 1
                             break
                     else:
