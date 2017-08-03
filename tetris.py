@@ -260,6 +260,9 @@ class TetrisApp(object):
             while not self.drop(True):
                 pass
 
+    def idle(self):
+        pass
+
     def rotate_stone(self):
         if not self.gameover and not self.paused:
             new_stone = rotate_clockwise(self.stone)
@@ -302,7 +305,8 @@ class TetrisApp(object):
             'RIGHT',  # 1
             'DOWN',  # 2
             'UP',  # 3
-            'RETURN'  # 4
+            'RETURN',  # 4
+            'IDLE'  # 5
         ]
 
         key_actions = {
@@ -310,7 +314,8 @@ class TetrisApp(object):
             'RIGHT': lambda: self.move(+1),
             'DOWN': lambda: self.drop(True),
             'UP': self.rotate_stone,
-            'RETURN': self.insta_drop
+            'RETURN': self.insta_drop,
+            'IDLE': self.idle()
         }
 
         key_actions[num_to_key[action]]()
