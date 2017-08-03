@@ -307,6 +307,7 @@ class TetrisApp(object):
         }
 
         key_actions[action]()
+        self.drop(False)
 
     def _draw_state(self):
         return join_matrixes(self.board, self.stone, (self.stone_x, self.stone_y))
