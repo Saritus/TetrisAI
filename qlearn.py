@@ -1,7 +1,7 @@
 import json
 import numpy as np
 from keras.models import Sequential
-from keras.layers.core import Dense
+from keras.layers import Dense, Conv2D, Flatten, Reshape
 from keras.optimizers import sgd
 from tetris import TetrisApp
 
@@ -42,6 +42,27 @@ class ExperienceReplay(object):
         return inputs, targets
 
 
+def create_cnn(num_actions):
+    model = Sequential()
+    model.add(Reshape((23, 10, 1), input_shape=(230,)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(Flatten())
+    model.add(Dense(230, activation='relu'))
+    model.add(Dense(230, activation='relu'))
+    model.add(Dense(num_actions, activation='softmax'))
+    return model
+
+
+def create_mlp(num_actions):
+    model = Sequential()
+    model.add(Dense(3125, input_shape=(230,), activation='relu'))
+    model.add(Dense(625, activation='relu'))
+    model.add(Dense(125, activation='relu'))
+    model.add(Dense(25, activation='relu'))
+    model.add(Dense(num_actions, activation='softmax'))
+    return model
+
+
 if __name__ == "__main__":
     # parameters
     epsilon = .1  # exploration
@@ -51,11 +72,7 @@ if __name__ == "__main__":
     batch_size = 50
     grid_size = 10
 
-    model = Sequential()
-    model.add(Dense(hidden_size, input_shape=(230,), activation='relu'))
-    model.add(Dense(hidden_size, activation='relu'))
-    model.add(Dense(hidden_size, activation='relu'))
-    model.add(Dense(num_actions, activation='softmax'))
+    model = create_mlp(num_actions)
     model.compile(sgd(lr=.2), "mse")
 
     # If you want to continue training from a previous model, just uncomment the line bellow
