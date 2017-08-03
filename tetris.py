@@ -314,6 +314,65 @@ class TetrisApp(object):
 
             dont_burn_my_cpu.tick(maxfps)
 
+    # Interface for qlearn
+
+    def _update_state(self, action):
+        """
+        Input: action and states
+        Ouput: new states and reward
+        """
+        state = self.state
+        if action == 0:  # left
+            action = -1
+        elif action == 1:  # stay
+            action = 0
+        else:
+            action = 1  # right
+        f0, f1, basket = state[0]
+        new_basket = min(max(1, basket + action), self.grid_size - 1)
+        f0 += 1
+        out = numpy.asarray([f0, f1, new_basket])
+        out = out[numpy.newaxis]
+
+        assert len(out.shape) == 2
+        self.state = out
+
+    def _draw_state(self):
+        # Calculate the reward
+        # TODO: Implement _draw_state
+        canvas = numpy.zeros(5, 5)
+        canvas[0, 0] = 1  # draw fruit
+        canvas[1, 1] = 1  # draw basket
+        return canvas
+
+    def _get_reward(self):
+        # Calculate the reward
+        # TODO: Implement _get_reward
+        return 0
+
+    def _is_over(self):
+        # Check if the game is over
+        # TODO: Implement _is_over
+        if False:
+            return True
+        else:
+            return False
+
+    def observe(self):
+        canvas = self._draw_state()
+        return canvas.reshape((1, -1))
+
+    def act(self, action):
+        self._update_state(action)
+        reward = self._get_reward()
+        game_over = self._is_over()
+        return self.observe(), reward, game_over
+
+    def reset(self):
+        # Reset the game
+        # TODO: Implement reset
+        return
+
 
 if __name__ == '__main__':
     App = TetrisApp()
