@@ -155,12 +155,14 @@ class TetrisApp(object):
         self.next_stone = tetris_shapes[rand(len(tetris_shapes))]
         self.stone_x = int(cols / 2 - len(self.stone[0]) / 2)
         self.stone_y = 0
+        self.stone_cnt += 1
 
         if check_collision(self.board, self.stone, (self.stone_x, self.stone_y)):
             self.gameover = True
 
     def init_game(self):
         self.board = new_board()
+        self.stone_cnt = 0
         self.new_stone()
         self.level = 1
         self.score = 0
