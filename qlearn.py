@@ -24,8 +24,7 @@ class ExperienceReplay(object):
         env_dim = self.memory[0][0][0].shape[1]
         inputs = np.zeros((min(len_memory, batch_size), env_dim))
         targets = np.zeros((inputs.shape[0], num_actions))
-        for i, idx in enumerate(np.random.randint(0, len_memory,
-                                                  size=inputs.shape[0])):
+        for i, idx in enumerate(np.random.randint(0, len_memory, size=inputs.shape[0])):
             state_t, action_t, reward_t, state_tp1 = self.memory[idx][0]
             game_over = self.memory[idx][1]
 
