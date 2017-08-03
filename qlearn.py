@@ -113,7 +113,7 @@ if __name__ == "__main__":
             inputs, targets = exp_replay.get_batch(model, batch_size=batch_size)
 
             loss += model.train_on_batch(inputs, targets)
-        print("Epoch {:03d}/{} | Loss {:.4f} | Score {} | Lines {}".format(e, epoch - 1, loss, env.score, env.lines))
+        print("Epoch {:04d}/{} | Loss {:.4f} | Score {} | Lines {} | Stones {}".format(e, epoch - 1, loss, env.score, env.lines, env.stone_cnt))
 
     # Save trained model weights and architecture, this will be used by the visualization code
     model.save_weights("model.h5", overwrite=True)
