@@ -295,6 +295,17 @@ class TetrisApp(object):
                 self.draw_matrix(self.next_stone, (cols + 1, 2))
         pygame.display.update()
 
+        num_to_key = [
+            'ESCAPE',  # 0
+            'LEFT',  # 1
+            'RIGHT',  # 2
+            'DOWN',  # 3
+            'UP',  # 4
+            'p',  # 5
+            'SPACE',  # 6
+            'RETURN'  # 7
+        ]
+
         key_actions = {
             'ESCAPE': self.quit,
             'LEFT': lambda: self.move(-1),
@@ -306,7 +317,7 @@ class TetrisApp(object):
             'RETURN': self.insta_drop
         }
 
-        key_actions[action]()
+        key_actions[num_to_key[action]]()
         self.drop(False)
 
     def _draw_state(self):
